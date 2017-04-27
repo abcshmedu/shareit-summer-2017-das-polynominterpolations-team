@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import edu.hm.data.Book;
+import edu.hm.data.Medium;
 import edu.hm.logic.MediaService;
 import edu.hm.logic.MediaServiceImpl;
 import edu.hm.logic.MediaServiceResult;
@@ -49,16 +50,13 @@ public class MediaResource {
 	
 	@GET
 	@Path("books")
-	public String listBooks(){
-		return "books";
+	public Book[] listBooks(){
+		Book[] books = (Book[]) service.getBooks();
+		return books;
 	}
 	
 	@PUT
 	@Path("books/{isbn}")
-	public String modifyBook(){return "lol";}
-	
-	
-	
-	
-
+	public Book modifyBook(){return "lol";
+	}
 }
