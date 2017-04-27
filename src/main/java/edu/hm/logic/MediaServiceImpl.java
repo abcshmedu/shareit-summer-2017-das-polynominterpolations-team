@@ -7,27 +7,32 @@ import edu.hm.data.Book;
 import edu.hm.data.Disc;
 import edu.hm.data.Medium;
 
+/**
+ * Dies ist unsere Implementierung der Geschäftslogik.
+ * @author Sebastian Becker
+ * @author Peter Straßer
+ *
+ */
 public class MediaServiceImpl implements MediaService{
+	/** Diese Liste enthält alle aktuell gespeicherten Bücher. */
 	List<Medium> bookStorage = new ArrayList<>();
 	
+	/** Diese Liste enthält alle aktuell gespeicherten Discs. */
 	List<Medium> discStorage = new ArrayList<>();
 	
+	/** Diese Liste enthält die ISBNs aller aktuell gespeicherten Bücher. */
 	List<String> allISBNs = new ArrayList<String>();
 	
+	/** Diese Liste enthält alle Barcodes aller aktuell gespeicherten Disc. */
 	List<String> allBarcodes = new ArrayList<String>();
 
 	@Override
 	public MediaServiceResult addBook(Book newBook) {
 		String newBookISBN = newBook.getIsbn();
-		boolean isbnIsCorrect = true;
 		
 		if(newBookISBN == null)
 			return MediaServiceResult.FAIL;
-		
-		for(char car : newBookISBN.toCharArray())
-			isbnIsCorrect &= Character.isDigit(car);
-		
-		if(isbnIsCorrect == false)
+		else if(!testIsbnAndBarcode(newBookISBN))
 			return MediaServiceResult.FAIL;
 		else if(allISBNs.contains(newBookISBN))
 			return MediaServiceResult.FAIL;
@@ -39,21 +44,71 @@ public class MediaServiceImpl implements MediaService{
 		bookStorage.add(newBook);
 		allISBNs.add(newBookISBN);
 		
+		System.out.println(bookStorage.size());
+		
 		return MediaServiceResult.OK;
 	}
 
 	@Override
+	public Medium[] getBooks() {
+		return  bookStorage.toArray(new Medium[1]);
+	}
+
+	@Override
+	public MediaServiceResult updateBook(Book book) {
+		if(!bookStorage.contains(book))
+			return MediaServiceResult.FAIL;
+			
+		bookStorage.get(bookStorage.indexOf(book));
+		bookStorage.remove(bookStorage.indexOf(book));
+		
+		return MediaServiceResult.OK;
+	}
+
+	@Override
+	public Book getBook(String isbn){
+		Medium[] storedBooks;
+		Book book;
+		
+		if(!testIsbnAndBarcode(isbn))
+			return null;
+		
+		storedBooks =  getBooks();
+		book = null;
+		//System.out.println("MediaServiceImpl.getBook: vor loop");
+		for(Medium mBook : storedBooks){
+			Book currentBook = (Book) mBook;
+			if(currentBook != null && currentBook.getIsbn().equals(isbn)){
+				book = currentBook;
+			}
+		}
+		System.out.println(book);
+		
+		return book;
+	}
+	
+	/**
+	 * Diese Methode testet, ob eine ISBN oder ein Barcode gültig ist.
+	 * @param code Die zu testende ISBN oder der zu testende Barcode
+	 * @return Liefert true zurück, falls die/der getestete ISBN/Barcode gültig ist. Fals andernfalls.
+	 */
+	private boolean testIsbnAndBarcode(String code){
+		//System.out.println("MediaServiceImpl.testIsbnAndBarcode: code: " + code);
+		boolean isCorrect = true;
+		for(char car : code.toCharArray()){
+			isCorrect &= Character.isDigit(car);
+		}
+		return isCorrect;
+	}
+
+
+	@Override
 	public MediaServiceResult addDisc(Disc newDisc) {
 		String newDiscBarcode = newDisc.getBarcode();
-		boolean barcodeIsCorrect = true;
 		
 		if(newDiscBarcode == null)
 			return MediaServiceResult.FAIL;
-			
-		for(char car : newDiscBarcode.toCharArray())
-			barcodeIsCorrect &= Character.isDigit(car);
-		
-		if(barcodeIsCorrect == false)
+		else if(!testIsbnAndBarcode(newDiscBarcode))
 			return MediaServiceResult.FAIL;
 		else if(allBarcodes.contains(newDiscBarcode))
 			return MediaServiceResult.FAIL;
@@ -69,28 +124,13 @@ public class MediaServiceImpl implements MediaService{
 		
 		return MediaServiceResult.OK;
 	}
-
-	@Override
-	public Medium[] getBooks() {
-		return (Medium[]) bookStorage.toArray();
-	}
-
+	
 	@Override
 	public Medium[] getDiscs() {
-		return (Medium[]) discStorage.toArray();
+		return discStorage.toArray(new Medium[1]);
 	}
 
-	@Override
-	public MediaServiceResult updateBook(Book book) {
-		if(!bookStorage.contains(book))
-			return MediaServiceResult.FAIL;
-			
-		bookStorage.get(bookStorage.indexOf(book));
-		bookStorage.remove(bookStorage.indexOf(book));
-		
-		return MediaServiceResult.OK;
-	}
-
+	
 	@Override
 	public MediaServiceResult updateDisc(Disc disc) {
 		if(!discStorage.contains(disc))
@@ -101,5 +141,10 @@ public class MediaServiceImpl implements MediaService{
 		
 		return MediaServiceResult.OK;
 	}
-
+	
+	@Override
+	public Disc getDisc(String barcode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

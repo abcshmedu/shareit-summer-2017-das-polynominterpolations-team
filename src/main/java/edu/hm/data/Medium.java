@@ -1,12 +1,27 @@
 package edu.hm.data;
 
+/**
+ * Dies ist unsere Implementierung der Medium-Klasse.
+ * @author Sebastian Becker
+ * @author Peter Straßer
+ *
+ */
 public  class Medium {
+	/** Diese Variable enthält den Titel diese Mediums. */
 	private String title;
 	
+	/**
+	 * Ctor für ein Medium.
+	 * @param title Der Titel des Mediums
+	 */
 	public Medium(String title){
 		this.title = title;
 	}
 	
+	/**
+	 * Getter für den Titel.
+	 * @return Liefert den Titel zurück
+	 */
 	public  String getTitle(){
 		return title;
 	}

@@ -10,22 +10,38 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.eclipse.jetty.server.Response;
+import org.mockito.Mockito;
+
 import edu.hm.data.Book;
 import edu.hm.data.Medium;
 import edu.hm.logic.MediaService;
 import edu.hm.logic.MediaServiceImpl;
 import edu.hm.logic.MediaServiceResult;
 
+/**
+ * Dies ist unsere Implementierung der REST-API.
+ * @author Sebastian Becker
+ * @author Peter Straßer
+ *
+ */
 @Path("media")
 public class MediaResource {
 	MediaService service = new MediaServiceImpl();
 	
+	/**
+	 * Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
+	 * @param title	Der Titel des Buches
+	 * @param author Der Author des Buches
+	 * @param isbn Die ISBN des Buches
+	 * @return 
+	 */
 	@POST
 	@Path("books")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON) 
 	@Produces(MediaType.APPLICATION_JSON)
 	public MediaServiceResult createNewBook(@QueryParam("title") String title, @QueryParam("author") String author, @QueryParam("isbn") String isbn) {
-		//System.out.println(title + " " + author + " " + isbn);
+		System.out.println(title + " " + author + " " + isbn);
 		Book newBook = new Book(title, author, isbn);
 		MediaServiceResult msr = service.addBook(newBook);
 		//System.out.println("createNewBook: after service.addBook(newBook)");
@@ -33,30 +49,86 @@ public class MediaResource {
 		return msr;
 	}
 	
+	/**
+	 * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN angefordert wird.
+	 * @param isbn Die ISBN des gesuchten Buches
+	 * @return
+	 */
 	@GET
 	@Path("books/{isbn}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Book getBook(@PathParam("isbn") String isbn) {
-		Book[] storedBooks = (Book[]) service.getBooks();
-		Book book = null;
-		for(Book currentBook : storedBooks){
-			if(currentBook != null && currentBook.getIsbn().equals(isbn)){
-				book = currentBook;
-			}
+	public MediaServiceResult getBook(@PathParam("isbn") String isbn) {
+		System.out.println("getBook");
+		MediaServiceResult msr = null;
+		Book book = service.getBook(isbn);
+		if(book == null){
+			msr = MediaServiceResult.FAIL;
+			msr.setDetail("Book was not found.");
+		}
+		else {
+			msr = MediaServiceResult.OK;
+			msr.setDetail("Book was found");
 		}
 		
-		return book;
+		return msr;
 	}
 	
+	/**
+	 * Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet werden sollen.
+	 * @return
+	 */
 	@GET
 	@Path("books")
-	public Book[] listBooks(){
-		Book[] books = (Book[]) service.getBooks();
+	public Medium[] listBooks(){
+		System.out.println("listBooks");
+		Medium[] books = service.getBooks();
 		return books;
 	}
 	
+	/**
+	 * Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch modifiziert werden soll.
+	 * @return
+	 */
 	@PUT
 	@Path("books/{isbn}")
-	public Book modifyBook(){return "lol";
+	public String modifyBook(){
+		System.out.println("modifyBook");
+		return "lol";
 	}
+	
+//	
+//	@POST
+//	@Path("discs")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public MediaServiceResult createNewDisc(@QueryParam("title") String title, @QueryParam("author") String author, @QueryParam("isbn") String isbn) {
+//		//System.out.println(title + " " + author + " " + isbn);
+//		Book newBook = new Book(title, author, isbn);
+//		MediaServiceResult msr = service.addBook(newBook);
+//		//System.out.println("createNewBook: after service.addBook(newBook)");
+//		
+//		return msr;
+//	}
+//	
+//	@GET
+//	@Path("discs/{barcode}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Book getDisc(@PathParam("barcode") String barcode) {
+//		Book[] storedBooks = (Book[]) service.getBooks();
+//		Book book = service.getBook(barcode);
+//		
+//		return book;
+//	}
+//	
+//	@GET
+//	@Path("discs")
+//	public Disc[] listDisc(){
+//		Disc[] discs = (Disc[]) service.getDiscs();
+//		return discs;
+//	}
+//	
+//	@PUT
+//	@Path("discs/{isbn}")
+//	public String modifyDisc(){return "lol";
+//	}
 }

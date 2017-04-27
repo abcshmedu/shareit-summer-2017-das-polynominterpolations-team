@@ -1,10 +1,24 @@
 package edu.hm.data;
 
+/**
+ * Dies ist unsere Implementierung des Buches.
+ * @author Sebastian Becker
+ * @author Peter Straßer
+ *
+ */
 public class Book extends Medium {
-
+	/** Diese Variable enthält den Autor des Buches. */
 	private String author;
+	
+	/** Diese Variable enthält die ISBN des Buches. */
 	private String isbn;
 	
+	/**
+	 * Ctor für ein Buch-Objekt.
+	 * @param title Der Titel des Buches
+	 * @param author Der Autor des Buches
+	 * @param isbn Die ISBN des Buches
+	 */
 	public Book(String title, String author, String isbn) {
 		super(title);
 		this.author = author;
@@ -12,14 +26,16 @@ public class Book extends Medium {
 	}
 
 	/**
-	 * @return the author
+	 * Getter für den Autor.
+	 * @return Liefert den Autor zurück
 	 */
 	public String getAuthor() {
 		return author;
 	}
 
 	/**
-	 * @return the isbn
+	 * Getter für die ISBN.
+	 * @return Liefert die ISBN zurück.
 	 */
 	public String getIsbn() {
 		return isbn;
@@ -63,9 +79,8 @@ public class Book extends Medium {
 	}
 
 	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return  author + isbn;
+	public String toString() { 
+		return  "Author: " + author + " | ISBN: " + isbn + "\n";
 	}
 
 }

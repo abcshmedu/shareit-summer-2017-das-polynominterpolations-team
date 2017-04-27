@@ -1,17 +1,59 @@
 package edu.hm.data;
 
+/**
+ * Dies ist unsere Implementierung der Disc-Klasse.
+ * @author Sebastian Becker
+ * @author Peter Straßer
+ *
+ */
 public class Disc extends Medium{
+	/** Diese Variable enthält den Barcode dieser Disc. */
 	private String barcode;
+	
+	/** Diese Variable enthält den Director dieser Disc.*/
 	private String director;
+	
+	/** Diese Variable enthält das Alter, ab welchem diese Disc freigegeben ist. */
 	private int fsk;
 	
-	public Disc(String title, String director, int fsk) {
+	/**
+	 * Ctor für eine Disc.
+	 * @param title Der Titel der Disc
+	 * @param barcode Der Barcode der Disc
+	 * @param director Der Director der Disc
+	 * @param fsk Das Alter, ab dem diese Disc freigegeben ist
+	 */
+	public Disc(String title, String barcode, String director, int fsk) {
 		super(title);
 		this.barcode = barcode;
 		this.director = director;
 		this.fsk = fsk;
 	}
 
+	/**
+	 * Getter für den Barcode.
+	 * @return Liefert den Barcode zurück.
+	 */
+	public String getBarcode() {
+		return barcode;
+	}
+
+	/**
+	 * Getter für den Director.
+	 * @return Liefert den Director zurück
+	 */
+	public String getDirector() {
+		return director;
+	}
+
+	/**
+	 * Getter für das FSK-Alter.
+	 * @return Liefert das FSK-Alter zurück
+	 */
+	public int getFsk() {
+		return fsk;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -54,28 +96,6 @@ public class Disc extends Medium{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return director + barcode + fsk;
-	}
-
-	/**
-	 * @return the barcode
-	 */
-	public String getBarcode() {
-		return barcode;
-	}
-
-	/**
-	 * @return the director
-	 */
-	public String getDirector() {
-		return director;
-	}
-
-	/**
-	 * @return the fsk
-	 */
-	public int getFsk() {
-		return fsk;
 	}
 }
