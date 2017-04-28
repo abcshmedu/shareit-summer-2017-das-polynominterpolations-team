@@ -15,43 +15,58 @@ import edu.hm.data.Medium;
  */
 public class MediaServiceImpl implements MediaService{
 	/** Diese Liste enthält alle aktuell gespeicherten Bücher. */
-	List<Medium> bookStorage = new ArrayList<>();
+	List<Medium> bookStorage;
 	
 	/** Diese Liste enthält alle aktuell gespeicherten Discs. */
-	List<Medium> discStorage = new ArrayList<>();
+	List<Medium> discStorage;
 	
 	/** Diese Liste enthält die ISBNs aller aktuell gespeicherten Bücher. */
-	List<String> allISBNs = new ArrayList<String>();
+	List<String> allISBNs;
 	
 	/** Diese Liste enthält alle Barcodes aller aktuell gespeicherten Disc. */
-	List<String> allBarcodes = new ArrayList<String>();
+	List<String> allBarcodes;
 
+	public MediaServiceImpl(){
+		bookStorage = new ArrayList<>();
+		discStorage = new ArrayList<>();
+		allISBNs = new ArrayList<>();
+		allBarcodes = new ArrayList<>();
+	}
+	
 	@Override
 	public MediaServiceResult addBook(Book newBook) {
 		String newBookISBN = newBook.getIsbn();
+		MediaServiceResult result = MediaServiceResult.FAIL;
 		
-		if(newBookISBN == null)
-			return MediaServiceResult.FAIL;
-		else if(!testIsbnAndBarcode(newBookISBN))
-			return MediaServiceResult.FAIL;
-		else if(allISBNs.contains(newBookISBN))
-			return MediaServiceResult.FAIL;
-		else if(newBook.getAuthor() == null || newBook.getAuthor().equals(""))
-			return MediaServiceResult.FAIL;
-		else if(newBook.getTitle() == null || newBook.getTitle().equals(""))
-			return MediaServiceResult.FAIL;
+		if(newBookISBN == null){
+			result.setDetail("The Book does not have an ISBN.");
+			return result;}
+		else if(!testIsbnAndBarcode(newBookISBN)){
+			result.setDetail("The ISBN is not valid.");
+			return result;}
+		else if(allISBNs.contains(newBookISBN)){
+			result.setDetail("A book with the given ISBN is already present in the database.");
+			return result;}
+		else if(newBook.getAuthor() == null || newBook.getAuthor().equals("")){
+			result.setDetail("The author is not valid.");
+			return result;}
+		else if(newBook.getTitle() == null || newBook.getTitle().equals("")){
+			result.setDetail("The title is not valid.");
+			return result;}
 		
 		bookStorage.add(newBook);
 		allISBNs.add(newBookISBN);
 		
-		System.out.println(bookStorage.size());
+		System.out.println("MediaServiceImpl.addBook: bookStorage.size() = " + bookStorage.size());
 		
-		return MediaServiceResult.OK;
+		result = MediaServiceResult.OK;
+		result.setDetail("OK");
+		return result;
 	}
 
 	@Override
 	public Medium[] getBooks() {
-		return  bookStorage.toArray(new Medium[1]);
+		return  bookStorage.toArray(new Medium[0]);
 	}
 
 	@Override
@@ -59,8 +74,8 @@ public class MediaServiceImpl implements MediaService{
 		if(!bookStorage.contains(book))
 			return MediaServiceResult.FAIL;
 			
-		bookStorage.get(bookStorage.indexOf(book));
 		bookStorage.remove(bookStorage.indexOf(book));
+		bookStorage.add(book);
 		
 		return MediaServiceResult.OK;
 	}
@@ -82,7 +97,7 @@ public class MediaServiceImpl implements MediaService{
 				book = currentBook;
 			}
 		}
-		System.out.println(book);
+		System.out.println("MediaServiceImpl.getBook: book = " + book);
 		
 		return book;
 	}
