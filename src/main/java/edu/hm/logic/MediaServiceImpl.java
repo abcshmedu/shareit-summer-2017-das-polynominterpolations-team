@@ -140,6 +140,10 @@ public class MediaServiceImpl implements MediaService{
 	private boolean testIsbnAndBarcode(String code){
 		//System.out.println("MediaServiceImpl.testIsbnAndBarcode: code: " + code);
 		boolean isCorrect = true;
+		
+		if(code.length() <= 0)
+			isCorrect = false;
+		
 		for(char car : code.toCharArray()){
 			isCorrect &= Character.isDigit(car);
 		}
