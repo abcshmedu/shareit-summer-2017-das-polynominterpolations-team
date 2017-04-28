@@ -8,12 +8,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author Peter Straßer
  *
  */
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MediaServiceResult {
 	OK(200), FAIL(300), TEAPOT(418), NOOB(1338);
 	
 	/** Diese Variable enthält den Error-Code jedes MediaServiceResult-Objekts.	 */
-	private int errorCode;
+	private int statusCode;
 	
 	/** Diese Variable enthält zusätzliche Informationen bezüglich des Error-Codes.	 */
 	private String detail;
@@ -23,7 +22,7 @@ public enum MediaServiceResult {
 	 * @param errorCode
 	 */
 	MediaServiceResult(int errorCode){
-		this.errorCode = errorCode;
+		this.statusCode = errorCode;
 		this.detail = "";
 	}
 	
@@ -39,8 +38,8 @@ public enum MediaServiceResult {
 	 * Getter für den Error-Code.
 	 * @return Liefert den Error-Code zurück
 	 */
-	public int getCode(){
-		return errorCode;
+	public int getStatus(){
+		return statusCode;
 	}
 	
 	/**

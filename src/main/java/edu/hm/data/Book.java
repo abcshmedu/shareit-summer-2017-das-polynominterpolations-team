@@ -14,6 +14,14 @@ public class Book extends Medium {
 	private String isbn;
 	
 	/**
+	 * Default Ctor für ein Book.
+	 */
+	public Book(){
+		this("","","");
+	}
+	
+	
+	/**
 	 * Ctor für ein Buch-Objekt.
 	 * @param title Der Titel des Buches
 	 * @param author Der Autor des Buches

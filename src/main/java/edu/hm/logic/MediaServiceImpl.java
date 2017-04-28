@@ -15,10 +15,10 @@ import edu.hm.data.Medium;
  */
 public class MediaServiceImpl implements MediaService{
 	/** Diese Liste enthält alle aktuell gespeicherten Bücher. */
-	List<Medium> bookStorage;
+	List<Book> bookStorage;
 	
 	/** Diese Liste enthält alle aktuell gespeicherten Discs. */
-	List<Medium> discStorage;
+	List<Disc> discStorage;
 	
 	/** Diese Liste enthält die ISBNs aller aktuell gespeicherten Bücher. */
 	List<String> allISBNs;
@@ -66,18 +66,31 @@ public class MediaServiceImpl implements MediaService{
 
 	@Override
 	public Medium[] getBooks() {
-		return  bookStorage.toArray(new Medium[0]);
+		return  bookStorage.toArray(new Book[0]);
 	}
 
 	@Override
 	public MediaServiceResult updateBook(Book book) {
-		if(!bookStorage.contains(book))
-			return MediaServiceResult.FAIL;
-			
-		bookStorage.remove(bookStorage.indexOf(book));
-		bookStorage.add(book);
+		MediaServiceResult result = MediaServiceResult.FAIL;
+		String isbn = book.getIsbn();
+		Book bookToReplace = getBookByISBN(isbn);
 		
-		return MediaServiceResult.OK;
+		if(bookToReplace == null){
+			result.setDetail("No Book exists with the given ISBN. Modification of the Book aborted.");
+			return result;}
+		else if(book.getAuthor() == null || book.getAuthor().equals("")){
+			result.setDetail("The author is not valid.");
+			return result;}
+		else if(book.getTitle() == null || book.getTitle().equals("")){
+			result.setDetail("The title is not valid.");
+			return result;}
+		
+		bookStorage.remove(bookToReplace);
+		bookStorage.add(book);
+		result = MediaServiceResult.OK;
+		result.setDetail("OK");
+		
+		return result;
 	}
 
 	@Override
@@ -102,6 +115,23 @@ public class MediaServiceImpl implements MediaService{
 		return book;
 	}
 	
+	//====================================================HELPER METHODS========================================================================================================
+	/**
+	 * Diese Methode sucht ein Book mit der gegeben ISBN aus dem Speicher.
+	 * @param isbn Die ISBN des gesuchten Book
+	 * @return Liefert das Buch mit der gesuchten ISBN zurück, oder null
+	 */
+	private Book getBookByISBN(String isbn){
+		Book book = null;
+		
+		for(Book currentBook : bookStorage){
+			if(currentBook.getIsbn().equals(isbn))
+				book = currentBook;
+		}
+		
+		return book;
+	}
+	
 	/**
 	 * Diese Methode testet, ob eine ISBN oder ein Barcode gültig ist.
 	 * @param code Die zu testende ISBN oder der zu testende Barcode
@@ -115,51 +145,91 @@ public class MediaServiceImpl implements MediaService{
 		}
 		return isCorrect;
 	}
-
-
+	
+	private Disc getDiscByBarcode(String barcode) {
+		Disc disc = null;
+		
+		for(Disc currentDisc : discStorage){
+			if(currentDisc.getBarcode().equals(barcode))
+				disc = currentDisc;
+		}
+		
+		return disc;
+	}
+	//====================================================ALL DISC STUFF========================================================================================================
+	
+	
 	@Override
 	public MediaServiceResult addDisc(Disc newDisc) {
 		String newDiscBarcode = newDisc.getBarcode();
+		MediaServiceResult result = MediaServiceResult.FAIL;
 		
-		if(newDiscBarcode == null)
-			return MediaServiceResult.FAIL;
-		else if(!testIsbnAndBarcode(newDiscBarcode))
-			return MediaServiceResult.FAIL;
-		else if(allBarcodes.contains(newDiscBarcode))
-			return MediaServiceResult.FAIL;
-		else if(newDisc.getDirector() == null || newDisc.getDirector().equals(""))
-			return MediaServiceResult.FAIL;
-		else if(newDisc.getTitle() == null || newDisc.getTitle().equals(""))
-			return MediaServiceResult.FAIL;
-		else if(newDisc.getFsk() < 0)
-			return MediaServiceResult.FAIL;
+		if(newDiscBarcode == null){
+			result.setDetail("The Disc does not have Barcode.");
+			return result;}
+		else if(!testIsbnAndBarcode(newDiscBarcode)){
+			result.setDetail("The Barcode is not valid.");
+			return result;}
+		else if(allBarcodes.contains(newDiscBarcode)){
+			result.setDetail("A Disc with the given Barcode is already present in the database.");
+			return result;}
+		else if(newDisc.getDirector() == null || newDisc.getDirector().equals("")){
+			result.setDetail("The director is not valid.");
+			return result;}
+		else if(newDisc.getTitle() == null || newDisc.getTitle().equals("")){
+			result.setDetail("The title is not valid.");
+			return result;}
 		
 		discStorage.add(newDisc);
-		allBarcodes.add(newDisc.getBarcode());
+		allBarcodes.add(newDiscBarcode);
 		
-		return MediaServiceResult.OK;
-	}
-	
-	@Override
-	public Medium[] getDiscs() {
-		return discStorage.toArray(new Medium[1]);
+		System.out.println("MediaServiceImpl.addDisc: discStorage.size() = " + discStorage.size());
+		
+		result = MediaServiceResult.OK;
+		result.setDetail("OK");
+		return result;
 	}
 
-	
+	@Override
+	public Medium[] getDiscs() {
+		return	discStorage.toArray(new Disc[0]);
+	}
+
 	@Override
 	public MediaServiceResult updateDisc(Disc disc) {
-		if(!discStorage.contains(disc))
-			return MediaServiceResult.FAIL;
-			
-		discStorage.get(discStorage.indexOf(disc));
-		discStorage.remove(discStorage.indexOf(disc));
+		MediaServiceResult result = MediaServiceResult.FAIL;
+		String barcode = disc.getBarcode();
+		Disc discToReplace = getDiscByBarcode(barcode);
 		
-		return MediaServiceResult.OK;
+		if(discToReplace == null){
+			result.setDetail("No Disc exists with the given Barcode. Modification of the Disc aborted.");
+			return result;}
+		else if(disc.getDirector() == null || disc.getDirector().equals("")){
+			result.setDetail("The director is not valid.");
+			return result;}
+		else if(disc.getTitle() == null || disc.getTitle().equals("")){
+			result.setDetail("The title is not valid.");
+			return result;}
+		
+		discStorage.remove(discToReplace);
+		discStorage.add(disc);
+		result = MediaServiceResult.OK;
+		result.setDetail("OK");
+		
+		return result;
 	}
-	
+
+
 	@Override
-	public Disc getDisc(String barcode) {
-		// TODO Auto-generated method stub
-		return null;
+	public Disc getDisc(String barcode){
+		Disc disc;
+		
+		if(!testIsbnAndBarcode(barcode))
+			return null;
+		
+		disc = getDiscByBarcode(barcode);
+		
+		System.out.println("MediaServiceImpl.getDisc: disc = " + disc);
+		return disc;
 	}
 }

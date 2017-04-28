@@ -17,6 +17,13 @@ public class Disc extends Medium{
 	private int fsk;
 	
 	/**
+	 * Default Ctor für eine Disc.
+	 */
+	public Disc(){
+		this("","","", 0);
+	}
+	
+	/**
 	 * Ctor für eine Disc.
 	 * @param title Der Titel der Disc
 	 * @param barcode Der Barcode der Disc
