@@ -7,9 +7,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.json.JSONObject;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import edu.hm.data.Book;
 import edu.hm.data.Medium;
@@ -25,6 +28,7 @@ import edu.hm.logic.MediaServiceResult;
  */
 @Path("media")
 public class MediaResource {
+	/** Diese Variable enthält die Referenz auf die Geschäftslogik. */
 	static MediaService service = new MediaServiceImpl();
 	
 	/**
@@ -36,13 +40,20 @@ public class MediaResource {
 	 */
 	@POST
 	@Path("books")
+	@JsonIgnoreProperties(ignoreUnknown=false)
 	@Consumes(MediaType.APPLICATION_JSON) 
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response submitNewBook(@QueryParam("title") String title, @QueryParam("author") String author, @QueryParam("isbn") String isbn) {
-		System.out.println("MediaResource.sbumitNewBook: title = " + title + " | author = " + author + " | isbn = " + isbn);
+//	public Response submitNewBook(@QueryParam("title") String title, @QueryParam("author") String author, @QueryParam("isbn") String isbn) {
+	public Response submitNewBook(JSONObject input) {
+		System.out.println("MediaResource.submitNewBook: input: " + input);
+		String title = "";//input.getString("title");
+		String author = "";//input.getString("author");
+		String isbn = "";//input.getString("isbn");
+		
+		System.out.println("MediaResource.submitNewBook: title = " + title + " | author = " + author + " | isbn = " + isbn);
 		Book newBook = new Book(title, author, isbn);
 		MediaServiceResult msr = service.addBook(newBook);
-		
+
 		return Response.status(msr.getCode()).entity(msr.getDetail()).build();
 	}
 	
