@@ -29,9 +29,7 @@ public class MediaResource {
 	
 	/**
 	 * Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
-	 * @param title	Der Titel des Buches
-	 * @param author Der Author des Buches
-	 * @param isbn Die ISBN des Buches
+	 * @param Book book das neue Buch
 	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
 	 */
 	@POST
@@ -47,7 +45,7 @@ public class MediaResource {
 	/**
 	 * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN angefordert wird.
 	 * @param isbn Die ISBN des gesuchten Buches
-	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
+	 * @return das angefragte Buch
 	 */
 	@GET
 	@Path("books/{isbn}")
@@ -62,7 +60,7 @@ public class MediaResource {
 	
 	/**
 	 * Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet werden sollen.
-	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
+	 * @return alle angelegten B�cher
 	 */
 	@GET
 	@Path("books")
@@ -76,6 +74,7 @@ public class MediaResource {
 	
 	/**
 	 * Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch modifiziert werden soll.
+	 * @param isbn Die ISBN zu �ndernden Buches
 	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
 	 */
 	@PUT
@@ -100,10 +99,8 @@ public class MediaResource {
 	
 	
 	/**
-	 * Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
-	 * @param title	Der Titel des Buches
-	 * @param author Der Author des Buches
-	 * @param isbn Die ISBN des Buches
+	 * Diese Methode wird aufgerufen wenn eine neues Disc erstellt werden soll.
+	 * @param Disc Die neue Disc
 	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
 	 */
 	@POST
@@ -117,9 +114,9 @@ public class MediaResource {
 	}
 	
 	/**
-	 * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN angefordert wird.
-	 * @param barcode Die ISBN des gesuchten Buches
-	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
+	 * Diese Methode wird aufgerufen sobald eine Disc mit einem bestimmten Barcode angefordert wird.
+	 * @param barcode Der Barcode des gesuchten Disc
+	 * @return Die angefragte Disc
 	 */
 	@GET
 	@Path("discs/{barcode}")
@@ -133,8 +130,8 @@ public class MediaResource {
 	}
 	
 	/**
-	 * Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet werden sollen.
-	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
+	 * Diese Methode wird aufgerufen sobald alle aktuellen Discs gelistet werden sollen.
+	 * @return alle angelegten Discs
 	 */
 	@GET
 	@Path("discs")
@@ -147,7 +144,8 @@ public class MediaResource {
 	}
 	
 	/**
-	 * Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch modifiziert werden soll.
+	 * Diese Methode wird aufgerufen sobald ein schon vorhandene Disc modifiziert werden soll.
+	 * @param barcode Der Barcode des gesuchten Disc
 	 * @return Liefert ein Response-Objekt zurück, welches den response-code und -message enthält
 	 */
 	@PUT
