@@ -152,7 +152,7 @@ public class MediaServiceImpl implements MediaService {
             isbnIsCorrect = false;
         } else if (!(isbnParts[0].equals("978") || isbnParts[0].equals("979"))) {
             isbnIsCorrect = false;
-        } else if (isbnParts[isbnParts.length].length() != 1) {
+        } else if (isbnParts[isbnParts.length - 1].length() != 1) {
             isbnIsCorrect = false;
         }
 
