@@ -17,7 +17,7 @@ public enum MediaServiceResult {
 
     /** Default Ctor des MediaServiceResult-Enums.
      * 
-     * @param errorCode */
+     * @param errorCode Der Error-Code, des Enums */
     MediaServiceResult(int errorCode) {
         this.statusCode = errorCode;
         this.detail = "";
@@ -25,7 +25,7 @@ public enum MediaServiceResult {
 
     /** Diese Methode ermöglicht es dem Enum eine Error-Message mitzugeben.
      * 
-     * @param message */
+     * @param message Die Nachricht des Enums*/
     public void setDetail(String message) {
         this.detail = message;
     }

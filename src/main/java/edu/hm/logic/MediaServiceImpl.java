@@ -198,7 +198,10 @@ public class MediaServiceImpl implements MediaService {
      *        Der zu testende Barcode
      * @return true falls der Barcode korrekt ist, false falls nicht */
     private boolean testBarcode(final String barcode) {
-        return true;
+        boolean isValid = true;
+        if(barcode.length() != 12)
+            isValid = false;
+        return isValid;
     }
 
     // ====================================================ALL DISC

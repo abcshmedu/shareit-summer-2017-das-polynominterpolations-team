@@ -1,6 +1,6 @@
 # Starter Code für 2. Pratkikumsaufgabe Software-Architektur Sommer 2017 
 
-I. Link to heroku:
+I. Link zu Heroku:
 https://sa17.herokuapp.com/
 
 II. Beschreibung eines Buches und einer Disc als JSON-File.
@@ -88,7 +88,7 @@ Beispiel:
 }
 
 7. /media/discs/ 	GET
-Diese URL liefert eine Liste von allen vorhandenen Discs als JSON-Ojbekte zurück. 
+Diese URL liefert eine Liste von allen vorhandenen Discs als JSON-Objekte zurück. 
 Beispiel:
 [
   {
@@ -96,7 +96,7 @@ Beispiel:
 	"director": "The Director",
 	"barcode": "123456789012",
 	"fsk": "0"
-	},
+  },
   {
 	"title": "Another Title",
 	"director": "The Director",
