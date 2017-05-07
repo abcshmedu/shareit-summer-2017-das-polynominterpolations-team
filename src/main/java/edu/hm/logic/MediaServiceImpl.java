@@ -3,6 +3,7 @@ package edu.hm.logic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
@@ -142,12 +143,22 @@ public class MediaServiceImpl implements MediaService{
 			isbnIsCorrect = false;
 		else if(!(isbnParts[0].equals("978") || isbnParts[0].equals("979")))
 			isbnIsCorrect = false;
+		else if(isbnParts[4].length() != 1)
+			isbnIsCorrect = false;
 		
-		
-		
+		for(String part : isbnParts){
+			try { 
+		        Integer.parseInt(part); 
+		    } catch(NumberFormatException e) { 
+		        isbnIsCorrect = false;
+		        break;
+		    } catch(NullPointerException e) {
+		    	System.out.println("MediaServiceImpl.testISBN: NullPointerException");
+		    	isbnIsCorrect = false;
+		    	break;
+		    }
+		}
 		System.out.println("MediaServiceImpl.testISBN: isbnParts = " + Arrays.toString(isbnParts));
-		
-		
 		
 		return isbnIsCorrect;
 	}
