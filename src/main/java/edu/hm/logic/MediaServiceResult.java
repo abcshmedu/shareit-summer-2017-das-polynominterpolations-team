@@ -5,7 +5,7 @@ package edu.hm.logic;
  * @author Sebastian Becker
  * @author Peter Straßer */
 public enum MediaServiceResult {
-    OK(200), FAIL(300), TEAPOT(418), NOOB(1338);
+    OK(200), FAIL(300);
 
     /** Diese Variable enthält den Error-Code jedes
      * MediaServiceResult-Objekts. */

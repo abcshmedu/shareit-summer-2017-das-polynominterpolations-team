@@ -126,10 +126,10 @@ public class MediaResource {
     @GET
     @Path("discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Book getDisc(@PathParam("barcode") String barcode) {
+    public Disc getDisc(@PathParam("barcode") String barcode) {
         System.out.println("MediaResource.getDisc");
 
-        Book disc = service.getBook(barcode);
+        Disc disc = service.getDisc(barcode);
 
         return disc;
     }

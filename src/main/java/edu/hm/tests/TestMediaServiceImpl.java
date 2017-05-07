@@ -3,11 +3,12 @@ package edu.hm.tests;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
+import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.hm.api.MediaResource;
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
 import edu.hm.data.Medium;
@@ -17,12 +18,54 @@ import edu.hm.logic.MediaServiceResult;
 
 public class TestMediaServiceImpl {
 	MediaService ms;
+	MediaResource mr;
 
 	@Before
 	public void setup() {
 		ms = new MediaServiceImpl();
+		mr = new MediaResource();
 	}
 
+	@Test
+	public void testBookPost(){
+		Book book = new Book("A", "A", "978-1-11111-111-1");
+		Response response = mr.submitNewBook(book);
+		assertEquals(response.getStatus(), 200);
+		book = new Book(null, "A", "978-1-11111-111-1");
+		response = mr.submitNewBook(book);
+		assertEquals(response.getStatus(), 300);
+	}
+	
+	@Test
+	public void testDiscPost(){
+		Disc disc = new Disc("A", "123456789012", "1", 0);
+		Response response = mr.submitNewDisc(disc);
+		assertEquals(response.getStatus(), 200);
+		disc = new Disc(null, "123456789012", "2", 0);
+		response = mr.submitNewDisc(disc);
+		assertEquals(response.getStatus(), 300);
+	}
+	
+	@Test
+	public void testDiscPut(){
+		String barcode = "123456789012";
+		Disc disc = new Disc("A", barcode, "1", 0);
+		mr.submitNewDisc(disc);
+
+		Disc testDisc = new Disc("B", "123456789000", "2", 0); // No disc with this barcode exists
+		Response result = mr.modifyDisc("123456789000", testDisc);
+		assertEquals(result.getStatus(), 300);
+		
+		testDisc = new Disc(null, barcode, "2", 0); // no title
+		result = mr.modifyDisc(barcode, testDisc);
+		assertEquals(result.getStatus(), 300);
+		
+		testDisc = new Disc("B", barcode, "2", 0); // valid disc no error
+		mr.modifyDisc(barcode, testDisc);
+		disc = mr.getDisc(barcode);
+		assertEquals(disc, testDisc);
+	}
+	
 	@Test
 	public void testAddBook() {
 		Book[] books = new Book[5];
