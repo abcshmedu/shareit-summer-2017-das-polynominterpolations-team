@@ -1,52 +1,46 @@
 package edu.hm.logic;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-/**
- * Dies ist unsere Implementierung des MediaServiceResult-Enums.
+/** Dies ist unsere Implementierung des MediaServiceResult-Enums.
+ * 
  * @author Sebastian Becker
- * @author Peter Straßer
- *
- */
+ * @author Peter Straßer */
 public enum MediaServiceResult {
-	OK(200), FAIL(300), TEAPOT(418), NOOB(1338);
-	
-	/** Diese Variable enthält den Error-Code jedes MediaServiceResult-Objekts.	 */
-	private int statusCode;
-	
-	/** Diese Variable enthält zusätzliche Informationen bezüglich des Error-Codes.	 */
-	private String detail;
-	
-	/**
-	 * Default Ctor des MediaServiceResult-Enums.
-	 * @param errorCode
-	 */
-	MediaServiceResult(int errorCode){
-		this.statusCode = errorCode;
-		this.detail = "";
-	}
-	
-	/**
-	 * Diese Methode ermöglicht es dem Enum eine Error-Message mitzugeben.
-	 * @param message
-	 */
-	public void setDetail(String message){
-		this.detail = message;
-	}
-	
-	/**
-	 * Getter für den Error-Code.
-	 * @return Liefert den Error-Code zurück
-	 */
-	public int getStatus(){
-		return statusCode;
-	}
-	
-	/**
-	 * Getter für die Error-Message.
-	 * @return Liefert die Error-Message zurück
-	 */
-	public String getDetail(){
-		return detail;
-	}
+    OK(200), FAIL(300), TEAPOT(418), NOOB(1338);
+
+    /** Diese Variable enthält den Error-Code jedes
+     * MediaServiceResult-Objekts. */
+    private int statusCode;
+
+    /** Diese Variable enthält zusätzliche Informationen bezüglich des
+     * Error-Codes. */
+    private String detail;
+
+    /** Default Ctor des MediaServiceResult-Enums.
+     * 
+     * @param errorCode */
+    MediaServiceResult(int errorCode) {
+        this.statusCode = errorCode;
+        this.detail = "";
+    }
+
+    /** Diese Methode ermöglicht es dem Enum eine Error-Message mitzugeben.
+     * 
+     * @param message */
+    public void setDetail(String message) {
+        this.detail = message;
+    }
+
+    /** Getter für den Error-Code.
+     * 
+     * @return Liefert den Error-Code zurück */
+    public int getStatus() {
+        return statusCode;
+    }
+
+    /** Getter für die Error-Message.
+     * 
+     * @return Liefert die Error-Message zurück */
+    public String getDetail() {
+        return detail;
+    }
 }

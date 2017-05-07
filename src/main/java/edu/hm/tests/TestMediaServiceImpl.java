@@ -28,7 +28,7 @@ public class TestMediaServiceImpl {
 		Book book2 = ms.getBook(isbn);
 		assertEquals(book, book2);
 	}
-
+	
 	@Test
 	public void testGetBooks(){
 		
