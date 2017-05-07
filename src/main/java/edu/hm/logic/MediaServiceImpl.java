@@ -1,6 +1,7 @@
 package edu.hm.logic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.hm.data.Book;
@@ -41,7 +42,7 @@ public class MediaServiceImpl implements MediaService{
 		if(newBookISBN == null){
 			result.setDetail("The Book does not have an ISBN.");
 			return result;}
-		else if(!testIsbnAndBarcode(newBookISBN)){
+		else if(!testISBN(newBookISBN)){
 			result.setDetail("The ISBN is not valid.");
 			return result;}
 		else if(allISBNs.contains(newBookISBN)){
@@ -98,7 +99,7 @@ public class MediaServiceImpl implements MediaService{
 		Medium[] storedBooks;
 		Book book;
 		
-		if(!testIsbnAndBarcode(isbn))
+		if(!testISBN(isbn))
 			return null;
 		
 		storedBooks =  getBooks();
@@ -132,23 +133,33 @@ public class MediaServiceImpl implements MediaService{
 		return book;
 	}
 	
+	private boolean testISBN(final String isbn){
+		int isbnPartsLength = 5;
+		boolean isbnIsCorrect = true;
+		String[] isbnParts = isbn.split("-");
+		
+		if(isbnParts.length != isbnPartsLength)
+			isbnIsCorrect = false;
+		else if(!(isbnParts[0].equals("978") || isbnParts[0].equals("979")))
+			isbnIsCorrect = false;
+		
+		
+		
+		System.out.println("MediaServiceImpl.testISBN: isbnParts = " + Arrays.toString(isbnParts));
+		
+		
+		
+		return isbnIsCorrect;
+	}
+	
+
+	
 	/**
 	 * Diese Methode testet, ob eine ISBN oder ein Barcode gültig ist.
 	 * @param code Die zu testende ISBN oder der zu testende Barcode
 	 * @return Liefert true zurück, falls die/der getestete ISBN/Barcode gültig ist. Fals andernfalls.
 	 */
-	private boolean testIsbnAndBarcode(String code){
-		//System.out.println("MediaServiceImpl.testIsbnAndBarcode: code: " + code);
-		boolean isCorrect = true;
-		
-		if(code.length() <= 0)
-			isCorrect = false;
-		
-		for(char car : code.toCharArray()){
-			isCorrect &= Character.isDigit(car);
-		}
-		return isCorrect;
-	}
+
 	
 	private Disc getDiscByBarcode(String barcode) {
 		Disc disc = null;
@@ -159,6 +170,10 @@ public class MediaServiceImpl implements MediaService{
 		}
 		
 		return disc;
+	}
+	
+	private boolean testBarcode(final String barcode){
+		return true;
 	}
 	//====================================================ALL DISC STUFF========================================================================================================
 	
@@ -171,7 +186,7 @@ public class MediaServiceImpl implements MediaService{
 		if(newDiscBarcode == null){
 			result.setDetail("The Disc does not have Barcode.");
 			return result;}
-		else if(!testIsbnAndBarcode(newDiscBarcode)){
+		else if(!testBarcode(newDiscBarcode)){
 			result.setDetail("The Barcode is not valid.");
 			return result;}
 		else if(allBarcodes.contains(newDiscBarcode)){
@@ -228,7 +243,7 @@ public class MediaServiceImpl implements MediaService{
 	public Disc getDisc(String barcode){
 		Disc disc;
 		
-		if(!testIsbnAndBarcode(barcode))
+		if(!testBarcode(barcode))
 			return null;
 		
 		disc = getDiscByBarcode(barcode);
