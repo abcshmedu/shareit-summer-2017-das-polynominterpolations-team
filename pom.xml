@@ -61,7 +61,10 @@
         <artifactId>heroku-maven-plugin</artifactId>
         <version>1.1.3</version>
 		<configuration>
-		  <appName>guarded-earth-88409</appName>
+		  <appName>sa17</appName>
+          <processTypes>
+          	<web>java $JAVA_OPTS -cp target/classes/dependecy/* JettyStarter</web>
+          </processTypes>
         </configuration>
       </plugin>
       <plugin>
