@@ -24,13 +24,13 @@ public class Disc extends Medium {
      * 
      * @param title
      *        Der Titel der Disc
-     * @param barcode
-     *        Der Barcode der Disc
      * @param director
      *        Der Director der Disc
+     * @param barcode
+     *        Der Barcode der Disc
      * @param fsk
      *        Das Alter, ab dem diese Disc freigegeben ist */
-    public Disc(String title, String barcode, String director, int fsk) {
+    public Disc(String title, String director, String barcode, int fsk) {
         super(title);
         this.barcode = barcode;
         this.director = director;
