@@ -1,6 +1,6 @@
 # Starter Code für 2. Pratkikumsaufgabe Software-Architektur Sommer 2017 
 
-I. Link to heroku
+I. Link to heroku:
 https://sa17.herokuapp.com/
 
 II. Beschreibung eines Buches und einer Disc als JSON-File.
