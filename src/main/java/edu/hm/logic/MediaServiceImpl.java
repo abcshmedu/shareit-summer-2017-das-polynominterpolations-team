@@ -26,6 +26,7 @@ public class MediaServiceImpl implements MediaService {
     private List<String> allBarcodes;
 
     private static final int ISBN_PARTS = 5;
+    private static final int BARCODE_LENGTH = 12;
 
     /** Default Ctor-für die MediaServiceImpl-Klasse. */
     public MediaServiceImpl() {
@@ -199,8 +200,9 @@ public class MediaServiceImpl implements MediaService {
      * @return true falls der Barcode korrekt ist, false falls nicht */
     private boolean testBarcode(final String barcode) {
         boolean isValid = true;
-        if(barcode.length() != 12)
+        if (barcode.length() != BARCODE_LENGTH) {
             isValid = false;
+        }
         return isValid;
     }
 
