@@ -92,10 +92,10 @@
 	</dependencies>
 	<build>
 		<resources>
-		<resource>
-		<filtering>true</filtering>
-		<directory>src/main/resources</directory>
-		</resource>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
 		</resources>
 		<finalName>shareit</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
