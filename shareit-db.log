@@ -1,0 +1,5 @@
+/*C2*/SET SCHEMA PUBLIC
+drop table TBook if exists
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table TBook (id bigint not null, author varchar(255), isbn varchar(255), primary key (id))
