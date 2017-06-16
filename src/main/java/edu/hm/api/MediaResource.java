@@ -2,6 +2,7 @@ package edu.hm.api;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -16,160 +17,177 @@ import edu.hm.logic.MediaService;
 import edu.hm.logic.MediaServiceImpl;
 import edu.hm.logic.MediaServiceResult;
 
-/** Dies ist unsere Implementierung der REST-API.
+/**
+ * Dies ist unsere Implementierung der REST-API.
  * 
  * @author Sebastian Becker
- * @author Peter Straßer */
+ * @author Peter Straßer
+ */
 @Path("media")
 public class MediaResource {
     /** Diese Variable enthält die Referenz auf die Geschäftslogik. */
     private static MediaService service = new MediaServiceImpl();
 
-    /** Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
+    /**
+     * Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
      * 
      * @param book
-     *        das neue Buch, welches erstellt werden soll
+     *            das neue Buch, welches erstellt werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält */
+     *         -message enthält
+     */
     @POST
     @Path("books")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response submitNewBook(Book book) {
-        System.out.println("MediaResource.submitNewBook: book = " + book);
-        MediaServiceResult msr = service.addBook(book);
+    public Response submitNewBook(Book book, @HeaderParam("Token") final String token) {
+	System.out.println("MediaResource.submitNewBook: book = " + book);
+	MediaServiceResult msr = service.addBook(book, token);
 
-        return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
+	return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
     }
 
-    /** Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN
+    /**
+     * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN
      * angefordert wird.
      * 
      * @param isbn
-     *        Die ISBN des gesuchten Buches
-     * @return das angefragte Buch */
+     *            Die ISBN des gesuchten Buches
+     * @return das angefragte Buch
+     */
     @GET
     @Path("books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
     public Book getBook(@PathParam("isbn") String isbn) {
-        System.out.println("MediaResource.getBook");
+	System.out.println("MediaResource.getBook");
 
-        Book book = service.getBook(isbn);
+	Book book = service.getBook(isbn);
 
-        return book;
+	return book;
     }
 
-    /** Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet
+    /**
+     * Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet
      * werden sollen.
      * 
-     * @return alle angelegten B�cher */
+     * @return alle angelegten B�cher
+     */
     @GET
     @Path("books")
     @Produces(MediaType.APPLICATION_JSON)
     public Book[] listBooks() {
-        System.out.println("MediaResource.listBooks");
-        Book[] books = (Book[]) service.getBooks();
+	System.out.println("MediaResource.listBooks");
+	Book[] books = (Book[]) service.getBooks();
 
-        return books;
+	return books;
     }
 
-    /** Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch
+    /**
+     * Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch
      * modifiziert werden soll.
      * 
      * @param isbn
-     *        Die ISBN zu �ndernden Buches
+     *            Die ISBN zu �ndernden Buches
      * @param book
-     *        Das Book-Object, welches geändert werden soll
+     *            Das Book-Object, welches geändert werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält */
+     *         -message enthält
+     */
     @PUT
     @Path("books/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response modifyBook(@PathParam("isbn") String isbn, Book book) {
-        MediaServiceResult result = MediaServiceResult.FAIL;
+    public Response modifyBook(@PathParam("isbn") String isbn, Book book, @HeaderParam("Token") final String token) {
+	MediaServiceResult result = MediaServiceResult.FAIL;
 
-        if (!isbn.equals(book.getIsbn())) {
-            result.setDetail("ISBN of the query is not the same as the ISBN in the JSON-Object.");
-            return Response.status(result.getStatus()).entity(result.getDetail()).build();
-        }
+	if (!isbn.equals(book.getIsbn())) {
+	    result.setDetail("ISBN of the query is not the same as the ISBN in the JSON-Object.");
+	    return Response.status(result.getStatus()).entity(result.getDetail()).build();
+	}
 
-        result = service.updateBook(book);
+	result = service.updateBook(book, token);
 
-        return Response.status(result.getStatus()).entity(result.getDetail()).build();
+	return Response.status(result.getStatus()).entity(result.getDetail()).build();
     }
-    
 
-    // =========================================================DISC PART=====================================================================
+    // =========================================================DISC
+    // PART=====================================================================
 
-    
-    /** Diese Methode wird aufgerufen wenn eine neue Disc eingefügt werden soll.
+    /**
+     * Diese Methode wird aufgerufen wenn eine neue Disc eingefügt werden soll.
      * 
      * @param disc
-     *        Die neue Disc, welche eingefügt werden soll
+     *            Die neue Disc, welche eingefügt werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält */
+     *         -message enthält
+     */
     @POST
     @Path("discs")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response submitNewDisc(Disc disc) {
-        System.out.println("MediaResource.submitNewDisc: disc = " + disc);
-        MediaServiceResult msr = service.addDisc(disc);
+    public Response submitNewDisc(Disc disc, @HeaderParam("Token") final String token) {
+	System.out.println("MediaResource.submitNewDisc: disc = " + disc);
+	MediaServiceResult msr = service.addDisc(disc, token);
 
-        return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
+	return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
     }
 
-    /** Diese Methode wird aufgerufen sobald eine Disc mit einem bestimmten
+    /**
+     * Diese Methode wird aufgerufen sobald eine Disc mit einem bestimmten
      * Barcode angefordert wird.
      * 
      * @param barcode
-     *        Der Barcode des gesuchten Disc
-     * @return Die angefragte Disc */
+     *            Der Barcode des gesuchten Disc
+     * @return Die angefragte Disc
+     */
     @GET
     @Path("discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Disc getDisc(@PathParam("barcode") String barcode) {
-        System.out.println("MediaResource.getDisc");
+	System.out.println("MediaResource.getDisc");
 
-        Disc disc = service.getDisc(barcode);
+	Disc disc = service.getDisc(barcode);
 
-        return disc;
+	return disc;
     }
 
-    /** Diese Methode wird aufgerufen sobald alle aktuellen Discs gelistet
-     * werden sollen.
+    /**
+     * Diese Methode wird aufgerufen sobald alle aktuellen Discs gelistet werden
+     * sollen.
      * 
-     * @return alle angelegten Discs */
+     * @return alle angelegten Discs
+     */
     @GET
     @Path("discs")
     @Produces(MediaType.APPLICATION_JSON)
     public Disc[] listDiscs() {
-        System.out.println("MediaResource.listDiscs");
-        Disc[] disc = (Disc[]) service.getDiscs();
+	System.out.println("MediaResource.listDiscs");
+	Disc[] disc = (Disc[]) service.getDiscs();
 
-        return disc;
+	return disc;
     }
 
-    /** Diese Methode wird aufgerufen sobald ein schon vorhandene Disc
+    /**
+     * Diese Methode wird aufgerufen sobald ein schon vorhandene Disc
      * modifiziert werden soll.
      * 
      * @param barcode
-     *        Der Barcode des gesuchten Disc
+     *            Der Barcode des gesuchten Disc
      * @param disc
-     *        Die Disc, welche geändert werden soll
+     *            Die Disc, welche geändert werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält */
+     *         -message enthält
+     */
     @PUT
     @Path("discs/{barcode}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response modifyDisc(@PathParam("barcode") String barcode, Disc disc) {
-        MediaServiceResult result = MediaServiceResult.FAIL;
+    public Response modifyDisc(@PathParam("barcode") String barcode, Disc disc, @HeaderParam("Token") final String token) {
+	MediaServiceResult result = MediaServiceResult.FAIL;
 
-        if (!barcode.equals(disc.getBarcode())) {
-            result.setDetail("Barcode of the query is not the same as the Barcode in the JSON-Object.");
-            return Response.status(result.getStatus()).entity(result.getDetail()).build();
-        }
+	if (!barcode.equals(disc.getBarcode())) {
+	    result.setDetail("Barcode of the query is not the same as the Barcode in the JSON-Object.");
+	    return Response.status(result.getStatus()).entity(result.getDetail()).build();
+	}
 
-        result = service.updateDisc(disc);
+	result = service.updateDisc(disc, token);
 
-        return Response.status(result.getStatus()).entity(result.getDetail()).build();
+	return Response.status(result.getStatus()).entity(result.getDetail()).build();
     }
 }
