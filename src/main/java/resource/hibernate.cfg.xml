@@ -6,7 +6,7 @@
 <hibernate-configuration>
 
     <session-factory>
-        <property name="connection.url">jdbc:hsqldb:file:shareit-db;shutdown=true;hsqldb.write_delay=false;</property>
+        <property name="connection.url">jdbc:hsqldb:mem:.;shutdown=true;hsqldb.write_delay=false;</property>
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="connection.username">sa</property>
@@ -21,6 +21,7 @@
         <mapping class="edu.hm.persistance.TBook" />
         <mapping class="edu.hm.persistance.TDisc" />
         <mapping class="edu.hm.persistance.TMedium" />
+        <mapping class="edu.hm.persistance.Survey" />
 
     </session-factory>
 
