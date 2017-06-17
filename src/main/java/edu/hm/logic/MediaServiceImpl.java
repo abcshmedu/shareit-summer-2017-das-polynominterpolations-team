@@ -61,6 +61,7 @@ public class MediaServiceImpl implements MediaService {
 		}
 
 		bookStorage.add(newBook);
+		
 		allISBNs.add(newBookISBN);
 
 		System.out.println("MediaServiceImpl.addBook: bookStorage.size() = " + bookStorage.size());

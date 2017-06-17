@@ -1,9 +1,12 @@
-package edu.hm.persistance;
+package edu.hm.logic;
 
 import java.util.List;
 
 
 import org.hibernate.*;
+
+import edu.hm.data.Survey;
+import edu.hm.storageoperations.HibernateUtil;
 
 public class testdisshit {
 
@@ -24,24 +27,24 @@ public class testdisshit {
 //        for( TBook book : resultList) {
 //            System.out.println(" Title: " + book.getTitle() + "Author: " + book.getAuthor() + "ISBN like any1 cares: " + book.getIsbn());
 //        }
-		
-	    HibernateUtil hibernateUtil = new HibernateUtil();
-	    hibernateUtil.executeSQLCommand("create table survey (id int,name varchar);");
+		HibernateUtil hibernateUtil = new HibernateUtil();
+//	    hibernateUtil.executeSQLCommand("create table survey (id int,name varchar(5))");
 
 	    Session session = hibernateUtil.getSession();
 
-	    TBook testBook = new TBook("A", "A", "978-1-11111-111-1");
-
-	    System.out.println(testBook.getId());
+	    Survey survey = new Survey();
+	    survey.setName("hans");
+	    System.out.println(survey.getId()+ "0");
 	    
-	    session.save(testBook);
+	    session.save(survey);
 	    session.flush();
 	    
-	    System.out.println(testBook.getId());
-	    TBook surveyInSession = (TBook) session.get(TBook.class, testBook.getId());
-	    System.out.println(surveyInSession.getTitle());
+	    System.out.println(survey.getId() + "1");
+	    Survey surveyInSession = (Survey) session.get(Survey.class, survey.getId());
+	    System.out.println(surveyInSession.getName());
 
 	    session.close();
+	    hibernateUtil.checkData("select * from survey");
 	}
 
 }
