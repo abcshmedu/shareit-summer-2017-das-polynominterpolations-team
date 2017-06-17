@@ -5,7 +5,7 @@ package edu.hm.logic;
  * @author Sebastian Becker
  * @author Peter Straßer */
 public enum MediaServiceResult {
-    OK(200), FAIL(300);
+    OK(200), TOKEN_VALID(210), FAIL(300), TOKEN_INVALID(410);
 
     /** Diese Variable enthält den Error-Code jedes
      * MediaServiceResult-Objekts. */
