@@ -14,7 +14,7 @@ public class Disc extends Medium {
     /** Diese Variable enthält das Alter, ab welchem diese Disc freigegeben
      * ist. */
     private int fsk;
-
+ 
     /** Default Ctor für eine Disc. */
     public Disc() {
         this("", "", "", 0);

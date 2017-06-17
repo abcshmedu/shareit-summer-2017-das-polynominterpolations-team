@@ -26,14 +26,14 @@ public class HibernateUtil {
     	System.out.println("class not found: " + e.getMessage());
     	return;
     }
-    	
+    
     // Establish the connection to the database.
     String url = "jdbc:hsqldb:mem:.";
 
     Connection conn = DriverManager.getConnection(url, "sa", "");
     System.out.println("Got Connection.");
     st = conn.createStatement();
-  }
+  } 
   public Session getSession(){
     return session;
   }

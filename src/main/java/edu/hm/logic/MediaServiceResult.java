@@ -14,7 +14,7 @@ public enum MediaServiceResult {
     /** Diese Variable enthält zusätzliche Informationen bezüglich des
      * Error-Codes. */
     private String detail;
-
+ 
     /** Default Ctor des MediaServiceResult-Enums.
      * 
      * @param errorCode Der Error-Code, des Enums */

@@ -16,7 +16,7 @@ public interface MediaService {
      * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
      *         Information enthält */
     MediaServiceResult addBook(Book book, String token);
-    
+     
     /** Diese Methode updatet ein Buch, welches bereits in der Datenbank
      * vorhanden ist.
      * 

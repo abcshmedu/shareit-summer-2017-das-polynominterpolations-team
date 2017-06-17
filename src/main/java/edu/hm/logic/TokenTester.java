@@ -33,7 +33,7 @@ public class TokenTester {
 	public MediaServiceResult testToken(final String token) {
 		return connectToAuthServer(token);
 	}
-
+ 
 	private MediaServiceResult connectToAuthServer(final String token) {
 		MediaServiceResult result = MediaServiceResult.FAIL;
 

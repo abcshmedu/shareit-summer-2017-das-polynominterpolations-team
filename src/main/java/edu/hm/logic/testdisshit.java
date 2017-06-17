@@ -31,7 +31,7 @@ public class testdisshit {
 //	    hibernateUtil.executeSQLCommand("create table survey (id int,name varchar(5))");
 
 	    Session session = hibernateUtil.getSession();
-
+ 
 	    Survey survey = new Survey();
 	    survey.setName("hans");
 	    System.out.println(survey.getId()+ "0");

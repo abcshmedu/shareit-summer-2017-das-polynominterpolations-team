@@ -20,4 +20,4 @@ public class ShareItApplication extends ResourceConfig {
         guiceBridge.bridgeGuiceInjector(ShareitServletContextListener.getInjectorInstance());
     }
 
-}
+} 

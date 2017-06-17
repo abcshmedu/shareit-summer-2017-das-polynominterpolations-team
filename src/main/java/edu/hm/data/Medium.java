@@ -14,7 +14,7 @@ public class Medium {
      *        Der Titel des Mediums */
     public Medium(String title) {
         this.title = title;
-    }
+    } 
 
     /** Getter für den Titel.
      * 

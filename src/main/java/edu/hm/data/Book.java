@@ -15,7 +15,7 @@ public class Book extends Medium {
     public Book() {
         this("", "", "");
     }
-
+     
     /** Ctor für ein Buch-Objekt.
      * 
      * @param title

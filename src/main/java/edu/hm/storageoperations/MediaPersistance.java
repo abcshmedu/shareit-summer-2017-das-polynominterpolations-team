@@ -16,3 +16,4 @@ public interface MediaPersistance {
 	Book[] getAllBooks();
 	Disc[] getAllDiscs();
 }
+ 

@@ -23,6 +23,6 @@
         <mapping class="edu.hm.persistance.TMedium" />
         <mapping class="edu.hm.persistance.Survey" />
 
-    </session-factory>
+    </session-factory> 
 
 </hibernate-configuration>

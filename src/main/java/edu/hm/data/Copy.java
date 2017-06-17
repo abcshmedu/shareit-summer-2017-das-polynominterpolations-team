@@ -22,7 +22,7 @@ public class Copy {
         this.medium = medium;
         this.owner = owner;
     }
-
+ 
     /** Getter für das Medium.
      * 
      * @return Liefert das Medium zurück */

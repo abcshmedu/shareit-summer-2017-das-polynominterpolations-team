@@ -45,7 +45,7 @@ public class MediaResource {
 
 	return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
     }
-
+     
     /**
      * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN
      * angefordert wird.

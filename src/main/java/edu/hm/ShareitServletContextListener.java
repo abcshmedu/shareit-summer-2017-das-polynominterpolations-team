@@ -30,7 +30,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
 
     /**
      * This method is only required for the HK2-Guice-Bridge in the Application class.
-     * @return Injector instance.
+     * @return Injector instance. 
      */
     static Injector getInjectorInstance() {
         return injector;
