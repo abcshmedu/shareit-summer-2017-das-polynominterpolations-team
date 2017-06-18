@@ -10,14 +10,6 @@ import edu.hm.data.Medium;
  * @author Peter Straßer */
 public interface MediaService {
     MediaServiceResult addBook(Book book, String token);
-
-    /** Diese Methode updatet ein Buch, welches bereits in der Datenbank
-     * vorhanden ist.
-     * 
-     * @param book
-     *            Das Buch welches geupdatet werden soll
-     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
-     *         Information enthält */
     MediaServiceResult updateBook(Book book, String token);
 
     /** Diese Methode liefert das Buch mit der vorgegebenen ISBN zurück (sollte
@@ -34,21 +26,7 @@ public interface MediaService {
      * @return Book[] mit allen Büchern der Datenbank */
     Medium[] getBooks();
 
-    /** Diese Methode fügt eine neue Disc zur Datenbank hinzu.
-     * 
-     * @param disc
-     *            Die Disc, die hinzugefügt werden soll
-     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
-     *         Information enthält */
     MediaServiceResult addDisc(Disc disc, String token);
-
-    /** Diese Methode updatet eine Disc, welche bereits in der Datenbank
-     * vorhanden ist.
-     * 
-     * @param disc
-     *            Die Disc welche geupdatet werden soll
-     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
-     *         Information enthält */
     MediaServiceResult updateDisc(Disc disc, String token);
 
     /** Diese Methode liefert die Disc mit dem vorgegebenen Barcode zurück

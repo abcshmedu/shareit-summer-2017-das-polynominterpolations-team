@@ -1,8 +1,6 @@
 package edu.hm.logic;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
@@ -48,24 +46,10 @@ public class MediaServiceImpl implements MediaService {
      * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
      *         Information enthält */
     public MediaServiceResult addBook(final Book newBook) {
-	String newBookISBN = newBook.getIsbn();
 	MediaServiceResult result = MediaServiceResult.FAIL;
 
-	if (newBookISBN == null) {
-	    result.setDetail("The Book does not have an ISBN.");
-	    return result;
-	}
-	else if (!testISBN(newBookISBN)) {
-	    result.setDetail("The ISBN is not valid.");
-	    return result;
-	}
-	else if (newBook.getAuthor() == null || newBook.getAuthor().equals("")) {
-	    result.setDetail("The author is not valid.");
-	    return result;
-	}
-	else if (newBook.getTitle() == null || newBook.getTitle().equals("")) {
-	    result.setDetail("The title is not valid.");
-	    return result;
+	if (result == null) {
+	    result = testBook(newBook);
 	}
 
 	database.save(newBook);
@@ -90,23 +74,20 @@ public class MediaServiceImpl implements MediaService {
 	return result;
     }
 
+    /** Diese Methode updatet ein Buch, welches bereits in der Datenbank
+     * vorhanden ist.
+     * 
+     * @param book
+     *            Das Buch welches geupdatet werden soll
+     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
+     *         Information enthält */
     public MediaServiceResult updateBook(final Book book) {
 	MediaServiceResult result = null;
 
-	if (book.getAuthor() == null || book.getAuthor().equals("")) {
-	    result = MediaServiceResult.FAIL;
-	    result.setDetail("The author is not valid.");
-	}
-	else if (book.getTitle() == null || book.getTitle().equals("")) {
-	    result = MediaServiceResult.FAIL;
-	    result.setDetail("The title is not valid.");
-	}
-	else if (!testISBN(book.getIsbn())) {
-	    result = MediaServiceResult.FAIL;
-	    result.setDetail("The ISBN is not valid");
-	}
+	if(result == null)
+	    result = testBook(book);
 
-	//Falls kein Test fehlgeschlagen ist das Buch speichern
+	// Falls kein Test fehlgeschlagen hat das Buch speichern
 	if (result == null) {
 	    database.update(book);
 	    result = MediaServiceResult.OK;
@@ -122,7 +103,6 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Book getBook(String isbn) {
-	Medium[] storedBooks;
 	Book book;
 
 	if (!testISBN(isbn)) {
@@ -133,6 +113,34 @@ public class MediaServiceImpl implements MediaService {
 	System.out.println("MediaServiceImpl.getBook: book = " + book);
 
 	return book;
+    }
+
+    /** Diese Methode testet, ob die Attribute eines Buches korrekt sind.
+     * 
+     * @param book
+     *            Das zu testende Buch
+     * @return MediaServiceResult mit Details des Tests */
+    private MediaServiceResult testBook(final Book book) {
+	MediaServiceResult result = null;
+
+	if (book.getIsbn() == null) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The Book does not have an ISBN.");
+	}
+	else if (!testISBN(book.getIsbn())) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The ISBN is not valid.");
+	}
+	else if (book.getAuthor() == null || book.getAuthor().equals("")) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The author is not valid.");
+	}
+	else if (book.getTitle() == null || book.getTitle().equals("")) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The title is not valid.");
+	}
+
+	return result;
     }
 
     /** Diese Methode testet eine übergebene ISBN auf ihre Richtigkeit.
@@ -208,31 +216,24 @@ public class MediaServiceImpl implements MediaService {
 	return result;
     }
 
+    /** Diese Methode fügt eine neue Disc zur Datenbank hinzu.
+     * 
+     * @param disc
+     *            Die Disc, die hinzugefügt werden soll
+     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
+     *         Information enthält */
     public MediaServiceResult addDisc(final Disc newDisc) {
-	String newDiscBarcode = newDisc.getBarcode();
-	MediaServiceResult result = MediaServiceResult.FAIL;
+	MediaServiceResult result = null;
 
-	if (newDiscBarcode == null) {
-	    result.setDetail("The Disc does not have Barcode.");
-	    return result;
-	}
-	else if (!testBarcode(newDiscBarcode)) {
-	    result.setDetail("The Barcode is not valid.");
-	    return result;
-	}
-	else if (newDisc.getDirector() == null || newDisc.getDirector().equals("")) {
-	    result.setDetail("The director is not valid.");
-	    return result;
-	}
-	else if (newDisc.getTitle() == null || newDisc.getTitle().equals("")) {
-	    result.setDetail("The title is not valid.");
-	    return result;
+	if (result == null) {
+	    result = testDisc(newDisc);
 	}
 
-	database.save(newDisc);
-
-	result = MediaServiceResult.OK;
-	result.setDetail("OK");
+	if (result == null) {
+	    database.save(newDisc);
+	    result = MediaServiceResult.OK;
+	    result.setDetail("OK");
+	}
 	return result;
     }
 
@@ -251,22 +252,25 @@ public class MediaServiceImpl implements MediaService {
 	return result;
     }
 
+    /** Diese Methode updatet eine Disc, welche bereits in der Datenbank
+     * vorhanden ist.
+     * 
+     * @param disc
+     *            Die Disc welche geupdatet werden soll
+     * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
+     *         Information enthält */
     public MediaServiceResult updateDisc(final Disc disc) {
-	MediaServiceResult result = MediaServiceResult.FAIL;
-	String barcode = disc.getBarcode();
+	MediaServiceResult result = null;
 
-	if (disc.getDirector() == null || disc.getDirector().equals("")) {
-	    result.setDetail("The director is not valid.");
-	    return result;
-	}
-	else if (disc.getTitle() == null || disc.getTitle().equals("")) {
-	    result.setDetail("The title is not valid.");
-	    return result;
+	if (result == null) {
+	    result = testDisc(disc);
 	}
 
-	database.update(disc);
-	result = MediaServiceResult.OK;
-	result.setDetail("OK");
+	if (result == null) {
+	    database.update(disc);
+	    result = MediaServiceResult.OK;
+	    result.setDetail("OK");
+	}
 
 	return result;
     }
@@ -288,6 +292,38 @@ public class MediaServiceImpl implements MediaService {
 
 	System.out.println("MediaServiceImpl.getDisc: disc = " + disc);
 	return disc;
+    }
+
+    /** Diese Methode testet die Attribute einer Disc auf deren Richtigkeit.
+     * 
+     * @param disc
+     *            Die zu testende Disc
+     * @return MediaServiceResult mit den Details des Tests */
+    private MediaServiceResult testDisc(final Disc disc) {
+	MediaServiceResult result = null;
+
+	if (disc.getBarcode() == null) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The Disc does not have Barcode.");
+	}
+	else if (!testBarcode(disc.getBarcode())) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The Barcode is not valid.");
+	}
+	else if (disc.getDirector() == null || disc.getDirector().equals("")) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The director is not valid.");
+	}
+	else if (disc.getTitle() == null || disc.getTitle().equals("")) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The title is not valid.");
+	}
+	else if (disc.getFsk() < 0) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("The FSK is smaller than zero.");
+	}
+
+	return result;
     }
 
     // ==============================================================================================================
