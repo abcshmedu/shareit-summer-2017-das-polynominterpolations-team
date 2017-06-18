@@ -13,8 +13,8 @@ public interface MediaPersistance {
 	boolean update(Book a);
 	boolean update(Disc a);
 	
-	Book get(String isbn);
-	Disc get(Disc a);
+	Book getBook(String isbn);
+	Disc getDisc(String barcode);
 	
 	Book[] getAllBooks();
 	Disc[] getAllDiscs();

@@ -17,19 +17,6 @@ public class MediaPersistanceImpl implements MediaPersistance {
 		hibernateUtil = new HibernateUtil();
 
 		session = hibernateUtil.getSession();
-
-		Survey survey = new Survey();
-		survey.setName("hans");
-		System.out.println(survey.getId() + "0");
-
-		session.save(survey);
-		session.flush();
-
-		System.out.println(survey.getId() + "1");
-		Survey surveyInSession = (Survey) session.get(Survey.class, survey.getId());
-		System.out.println(surveyInSession.getName());
-
-		session.close();
 	}
 
 	@Override
@@ -48,35 +35,35 @@ public class MediaPersistanceImpl implements MediaPersistance {
 
 	@Override
 	public boolean update(Book a) {
-		hibernateUtil.executeSQLCommand("UPDATE Book SET author = '" + a.getAuthor() + "' isbn = '" + a.getIsbn()
-				+ "' title = '" + a.getTitle() + "' WHERE id = " + a.getId() + "; ");
-		
-		return false;
+		hibernateUtil.executeSQLCommand("UPDATE Book SET author = '" + a.getAuthor() + "' title = '" + a.getTitle()
+				+ "' WHERE isbn = " + a.getIsbn() + "; ");
+		return true;
 	}
 
 	@Override
 	public boolean update(Disc a) {
-		// TODO Auto-generated method stub
+		hibernateUtil.executeSQLCommand("UPDATE Book SET director = '" + a.getDirector() + "' title = '" + a.getTitle()
+				+ "' WHERE barcode = " + a.getBarcode() + "; ");
 		return false;
 	}
 
 	@Override
-	public Book get(String isbn) {
-		Query query =session.createQuery("FROM Book b where b.isbn='" + isbn + "'");
+	public Book getBook(String isbn) {
+		Query query = session.createQuery("FROM Book b where b.isbn='" + isbn + "'");
 		return (Book) query.uniqueResult();
 	}
 
 	@Override
-	public Disc get(Disc a) {
-		// TODO Auto-generated method stub
-		return null;
+	public Disc getDisc(String barcode) {
+		Query query = session.createQuery("FROM Disc b where b.barcode='" + barcode + "'");
+		return (Disc) query.uniqueResult();
 	}
 
 	@Override
 	public Book[] getAllBooks() {
 		Query query = null;
 		try {
-			query=session.createQuery("select * from " + Book.class.getSimpleName());
+			query = session.createQuery("select * from " + Book.class.getSimpleName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,8 +75,16 @@ public class MediaPersistanceImpl implements MediaPersistance {
 
 	@Override
 	public Disc[] getAllDiscs() {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = null;
+		try {
+			query = session.createQuery("select * from " + Disc.class.getSimpleName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Disc> list = (List<Disc>) query.list();
+		Disc[] discs = list.toArray(new Disc[list.size()]);
+		return discs;
 	}
 
 }
