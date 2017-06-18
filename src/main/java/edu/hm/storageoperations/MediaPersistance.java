@@ -1,5 +1,8 @@
 package edu.hm.storageoperations;
 
+
+import java.util.List;
+
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
 
@@ -10,7 +13,7 @@ public interface MediaPersistance {
 	boolean update(Book a);
 	boolean update(Disc a);
 	
-	Book get(Book a);
+	Book get(String isbn);
 	Disc get(Disc a);
 	
 	Book[] getAllBooks();

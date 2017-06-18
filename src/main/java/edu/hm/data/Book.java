@@ -1,17 +1,36 @@
 package edu.hm.data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /** Dies ist unsere Implementierung des Buches.
  * 
  * @author Sebastian Becker
  * @author Peter Straßer */
+@Entity
+@Table
 public class Book extends Medium {
     /** Diese Variable enthält den Autor des Buches. */
     private String author;
 
     /** Diese Variable enthält die ISBN des Buches. */
     private String isbn;
+    
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    /** Default Ctor für ein Book. */
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/** Default Ctor für ein Book. */
     public Book() {
         this("", "", "");
     }

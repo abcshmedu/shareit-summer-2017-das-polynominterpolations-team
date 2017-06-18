@@ -7,6 +7,7 @@ import java.util.List;
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
 import edu.hm.data.Medium;
+import edu.hm.storageoperations.MediaPersistanceImpl;
 
 /**
  * Dies ist unsere Implementierung der Geschäftslogik.
@@ -26,6 +27,8 @@ public class MediaServiceImpl implements MediaService {
 
     /** Diese Liste enthält alle Barcodes aller aktuell gespeicherten Disc. */
     private List<String> allBarcodes;
+    
+    private MediaPersistanceImpl database;
 
     private static final int ISBN_PARTS = 5;
     private static final int BARCODE_LENGTH = 12;
@@ -36,6 +39,7 @@ public class MediaServiceImpl implements MediaService {
 	discStorage = new ArrayList<>();
 	allISBNs = new ArrayList<>();
 	allBarcodes = new ArrayList<>();
+	database = new MediaPersistanceImpl();
     }
 
     @Override
@@ -78,7 +82,7 @@ public class MediaServiceImpl implements MediaService {
 	    return result;
 	}
 
-	bookStorage.add(newBook);
+	database.save(newBook);
 	allISBNs.add(newBookISBN);
 
 	result = MediaServiceResult.OK;
@@ -119,8 +123,7 @@ public class MediaServiceImpl implements MediaService {
 	    return result;
 	}
 
-	bookStorage.remove(bookToReplace);
-	bookStorage.add(book);
+	database.update(book);
 	result = MediaServiceResult.OK;
 	result.setDetail("OK");
 
@@ -129,7 +132,7 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Medium[] getBooks() {
-	return bookStorage.toArray(new Book[0]);
+	return database.getAllBooks();
     }
 
     @Override
@@ -141,15 +144,7 @@ public class MediaServiceImpl implements MediaService {
 	    return null;
 	}
 
-	storedBooks = getBooks();
-	book = null;
-	// System.out.println("MediaServiceImpl.getBook: vor loop");
-	for (Medium mBook : storedBooks) {
-	    Book currentBook = (Book) mBook;
-	    if (currentBook != null && currentBook.getIsbn().equals(isbn)) {
-		book = currentBook;
-	    }
-	}
+	book = database.get(isbn);
 	System.out.println("MediaServiceImpl.getBook: book = " + book);
 
 	return book;
