@@ -46,16 +46,22 @@ public class MediaServiceImpl implements MediaService {
      * @return Liefert ein MediaServiceResult-Objekt zurück, welches zusätzliche
      *         Information enthält */
     public MediaServiceResult addBook(final Book newBook) {
-	MediaServiceResult result = MediaServiceResult.FAIL;
+	MediaServiceResult result = null;
 
+	//Testen ob das Buch okay ist
 	if (result == null) {
-	    result = testBook(newBook);
+	    result = testBookAttributes(newBook);
+	}
+	
+	if(result == null){
+	    result = testBookInStorage(newBook);
 	}
 
-	database.save(newBook);
-
-	result = MediaServiceResult.OK;
-	result.setDetail("OK");
+	if (result == null) {
+	    database.save(newBook);
+	    result = MediaServiceResult.OK;
+	    result.setDetail("OK");
+	}
 	return result;
     }
 
@@ -85,7 +91,7 @@ public class MediaServiceImpl implements MediaService {
 	MediaServiceResult result = null;
 
 	if (result == null)
-	    result = testBook(book);
+	    result = testBookAttributes(book);
 
 	// Falls kein Test fehlgeschlagen hat das Buch speichern
 	if (result == null) {
@@ -114,13 +120,24 @@ public class MediaServiceImpl implements MediaService {
 
 	return book;
     }
+    
+    private MediaServiceResult testBookInStorage(final Book book){
+	MediaServiceResult result = null;
+	
+	if(database.getBook(book.getIsbn()) != null){
+	    result = MediaServiceResult.CONFLICT;
+	    result.setDetail("Book with this ISBN already exists.");
+	}
+	
+	return result;
+    }
 
     /** Diese Methode testet, ob die Attribute eines Buches korrekt sind.
      * 
      * @param book
      *            Das zu testende Buch
      * @return MediaServiceResult mit Details des Tests */
-    private MediaServiceResult testBook(final Book book) {
+    private MediaServiceResult testBookAttributes(final Book book) {
 	MediaServiceResult result = null;
 
 	if (book.getIsbn() == null) {

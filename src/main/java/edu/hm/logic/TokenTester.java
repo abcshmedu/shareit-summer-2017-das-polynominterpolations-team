@@ -25,37 +25,45 @@ public class TokenTester {
      * @param token
      *            Das zu testende Token */
     public MediaServiceResult testToken(final String token) {
+
 	return connectToAuthServer(token);
     }
 
     private MediaServiceResult connectToAuthServer(final String token) {
-	MediaServiceResult result = MediaServiceResult.FAIL;
+	MediaServiceResult result = null;
 
-	try {
-	    URL url = new URL(verificationURL);
-	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	    conn.setRequestMethod("POST");
-	    conn.setRequestProperty("Accept", "application/json");
+	if (token == null) {
+	    result = MediaServiceResult.FAIL;
+	    result.setDetail("No Token specified.");
+	}
+	else {
+	    try {
+		URL url = new URL(verificationURL);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Accept", "application/json");
 
-	    conn.setRequestProperty("Token", token);
+		conn.setRequestProperty("Token", token);
 
-	    System.out.println("TokenTester.connectToAuthServer: token = " + token);
+		System.out.println("TokenTester.connectToAuthServer: token = " + token);
 
-	    conn.getInputStream();
+		conn.getInputStream();
 
-	    switch (conn.getResponseCode()) {
-	    case 200:
-		result = MediaServiceResult.TOKEN_VALID;
-		result.setDetail(conn.getHeaderField("JWT"));
-		break;
+		switch (conn.getResponseCode()) {
+		case 200:
+		    result = MediaServiceResult.TOKEN_VALID;
+		    result.setDetail(conn.getHeaderField("JWT"));
+		    break;
+		}
+		conn.disconnect();
 	    }
-	    conn.disconnect();
-	}
-	catch (MalformedURLException e) {
-	    e.printStackTrace();
-	}
-	catch (IOException e) {
-	    System.err.println("No connection to auth-server.");
+	    catch (MalformedURLException e) {
+		e.printStackTrace();
+	    }
+	    catch (IOException e) {
+		result = MediaServiceResult.FAIL;
+		result.setDetail("Could not connect to Authentication-Server.");
+	    }
 	}
 
 	return result;
