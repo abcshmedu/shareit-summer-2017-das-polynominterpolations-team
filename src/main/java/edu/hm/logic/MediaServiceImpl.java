@@ -5,6 +5,7 @@ import java.util.Arrays;
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
 import edu.hm.data.Medium;
+import edu.hm.storageoperations.MediaPersistance;
 import edu.hm.storageoperations.MediaPersistanceImpl;
 
 /** Dies ist unsere Implementierung der Geschäftslogik.
@@ -13,7 +14,7 @@ import edu.hm.storageoperations.MediaPersistanceImpl;
  * @author Peter Straßer */
 public class MediaServiceImpl implements MediaService {
     /** Eine Referenz auf die genutzte Datenbank. */
-    private MediaPersistanceImpl database;
+    private MediaPersistance database;
 
     private static final int ISBN_PARTS = 5;
     private static final int BARCODE_LENGTH = 12;
@@ -27,7 +28,6 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult addBook(final Book newBook, final String token) {
 	MediaServiceResult result = null;
 
-	// Falls
 	if (hasAccessRights(token)) {
 	    result = addBook(newBook);
 	}
@@ -84,7 +84,7 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult updateBook(final Book book) {
 	MediaServiceResult result = null;
 
-	if(result == null)
+	if (result == null)
 	    result = testBook(book);
 
 	// Falls kein Test fehlgeschlagen hat das Buch speichern
