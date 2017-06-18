@@ -11,50 +11,51 @@ public class Medium {
     /** Ctor für ein Medium.
      * 
      * @param title
-     *        Der Titel des Mediums */
+     *            Der Titel des Mediums */
     public Medium(String title) {
-        this.title = title;
-    } 
+	this.title = title;
+    }
 
     /** Getter für den Titel.
      * 
      * @return Liefert den Titel zurück */
     public String getTitle() {
-        return title;
+	return title;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        return result;
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((title == null) ? 0 : title.hashCode());
+	return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Medium other = (Medium) obj;
-        if (title == null) {
-            if (other.title != null) {
-                return false;
-            }
-        } else if (!title.equals(other.title)) {
-            return false;
-        }
-        return true;
+	if (this == obj) {
+	    return true;
+	}
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	Medium other = (Medium) obj;
+	if (title == null) {
+	    if (other.title != null) {
+		return false;
+	    }
+	}
+	else if (!title.equals(other.title)) {
+	    return false;
+	}
+	return true;
     }
 
     @Override
     public String toString() {
-        return title;
+	return title;
     }
 }

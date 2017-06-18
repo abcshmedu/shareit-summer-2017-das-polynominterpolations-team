@@ -8,31 +8,29 @@ import com.google.inject.servlet.ServletModule;
 import edu.hm.logic.MediaService;
 import edu.hm.logic.MediaServiceImpl;
 
-/**
- * Context Listener to enable usage of google guice together with jersey.
- * @author <a mailto:axel.boettcher@hm.edu>Axel B&ouml;ttcher</a>
- *
- */
+/** Context Listener to enable usage of google guice together with jersey.
+ * 
+ * @author <a mailto:axel.boettcher@hm.edu>Axel B&ouml;ttcher</a> */
 public class ShareitServletContextListener extends GuiceServletContextListener {
 
     private static final Injector injector = Guice.createInjector(new ServletModule() {
-        @Override
-        protected void configureServlets() {
-            bind(MediaService.class).to(MediaServiceImpl.class);
-            //bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
-        }
+	@Override
+	protected void configureServlets() {
+	    bind(MediaService.class).to(MediaServiceImpl.class);
+	    // bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
+	}
     });
 
     @Override
     protected Injector getInjector() {
-        return injector;
+	return injector;
     }
 
-    /**
-     * This method is only required for the HK2-Guice-Bridge in the Application class.
-     * @return Injector instance. 
-     */
+    /** This method is only required for the HK2-Guice-Bridge in the Application
+     * class.
+     * 
+     * @return Injector instance. */
     static Injector getInjectorInstance() {
-        return injector;
+	return injector;
     }
 }

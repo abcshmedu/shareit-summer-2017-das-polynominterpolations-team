@@ -14,33 +14,35 @@ public enum MediaServiceResult {
     /** Diese Variable enthält zusätzliche Informationen bezüglich des
      * Error-Codes. */
     private String detail;
- 
+
     /** Default Ctor des MediaServiceResult-Enums.
      * 
-     * @param errorCode Der Error-Code, des Enums */
+     * @param errorCode
+     *            Der Error-Code, des Enums */
     MediaServiceResult(int errorCode) {
-        this.statusCode = errorCode;
-        this.detail = "";
+	this.statusCode = errorCode;
+	this.detail = "";
     }
 
     /** Diese Methode ermöglicht es dem Enum eine Error-Message mitzugeben.
      * 
-     * @param message Die Nachricht des Enums*/
+     * @param message
+     *            Die Nachricht des Enums */
     public void setDetail(String message) {
-        this.detail = message;
+	this.detail = message;
     }
 
     /** Getter für den Error-Code.
      * 
      * @return Liefert den Error-Code zurück */
     public int getStatus() {
-        return statusCode;
+	return statusCode;
     }
 
     /** Getter für die Error-Message.
      * 
      * @return Liefert die Error-Message zurück */
     public String getDetail() {
-        return detail;
+	return detail;
     }
 }

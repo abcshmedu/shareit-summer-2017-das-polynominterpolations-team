@@ -17,25 +17,21 @@ import edu.hm.logic.MediaService;
 import edu.hm.logic.MediaServiceImpl;
 import edu.hm.logic.MediaServiceResult;
 
-/**
- * Dies ist unsere Implementierung der REST-API.
+/** Dies ist unsere Implementierung der REST-API.
  * 
  * @author Sebastian Becker
- * @author Peter Straßer
- */
+ * @author Peter Straßer */
 @Path("media")
 public class MediaResource {
     /** Diese Variable enthält die Referenz auf die Geschäftslogik. */
     private static MediaService service = new MediaServiceImpl();
 
-    /**
-     * Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
+    /** Diese Methode wird aufgerufen wenn ein neues Buch erstellt werden soll.
      * 
      * @param book
      *            das neue Buch, welches erstellt werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält
-     */
+     *         -message enthält */
     @POST
     @Path("books")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -45,15 +41,13 @@ public class MediaResource {
 
 	return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
     }
-     
-    /**
-     * Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN
+
+    /** Diese Methode wird aufgerufen sobald ein Buch mit einer bestimmten ISBN
      * angefordert wird.
      * 
      * @param isbn
      *            Die ISBN des gesuchten Buches
-     * @return das angefragte Buch
-     */
+     * @return das angefragte Buch */
     @GET
     @Path("books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,12 +59,10 @@ public class MediaResource {
 	return book;
     }
 
-    /**
-     * Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet
+    /** Diese Methode wird aufgerufen sobald alle aktuellen Bücher gelistet
      * werden sollen.
      * 
-     * @return alle angelegten B�cher
-     */
+     * @return alle angelegten B�cher */
     @GET
     @Path("books")
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,8 +73,7 @@ public class MediaResource {
 	return books;
     }
 
-    /**
-     * Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch
+    /** Diese Methode wird aufgerufen sobald ein schon vorhandenes Buch
      * modifiziert werden soll.
      * 
      * @param isbn
@@ -90,8 +81,7 @@ public class MediaResource {
      * @param book
      *            Das Book-Object, welches geändert werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält
-     */
+     *         -message enthält */
     @PUT
     @Path("books/{isbn}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -111,14 +101,12 @@ public class MediaResource {
     // =========================================================DISC
     // PART=====================================================================
 
-    /**
-     * Diese Methode wird aufgerufen wenn eine neue Disc eingefügt werden soll.
+    /** Diese Methode wird aufgerufen wenn eine neue Disc eingefügt werden soll.
      * 
      * @param disc
      *            Die neue Disc, welche eingefügt werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält
-     */
+     *         -message enthält */
     @POST
     @Path("discs")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -129,14 +117,12 @@ public class MediaResource {
 	return Response.status(msr.getStatus()).entity(msr.getDetail()).build();
     }
 
-    /**
-     * Diese Methode wird aufgerufen sobald eine Disc mit einem bestimmten
+    /** Diese Methode wird aufgerufen sobald eine Disc mit einem bestimmten
      * Barcode angefordert wird.
      * 
      * @param barcode
      *            Der Barcode des gesuchten Disc
-     * @return Die angefragte Disc
-     */
+     * @return Die angefragte Disc */
     @GET
     @Path("discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -148,12 +134,10 @@ public class MediaResource {
 	return disc;
     }
 
-    /**
-     * Diese Methode wird aufgerufen sobald alle aktuellen Discs gelistet werden
-     * sollen.
+    /** Diese Methode wird aufgerufen sobald alle aktuellen Discs gelistet
+     * werden sollen.
      * 
-     * @return alle angelegten Discs
-     */
+     * @return alle angelegten Discs */
     @GET
     @Path("discs")
     @Produces(MediaType.APPLICATION_JSON)
@@ -164,8 +148,7 @@ public class MediaResource {
 	return disc;
     }
 
-    /**
-     * Diese Methode wird aufgerufen sobald ein schon vorhandene Disc
+    /** Diese Methode wird aufgerufen sobald ein schon vorhandene Disc
      * modifiziert werden soll.
      * 
      * @param barcode
@@ -173,8 +156,7 @@ public class MediaResource {
      * @param disc
      *            Die Disc, welche geändert werden soll
      * @return Liefert ein Response-Objekt zurück, welches den response-code und
-     *         -message enthält
-     */
+     *         -message enthält */
     @PUT
     @Path("discs/{barcode}")
     @Consumes(MediaType.APPLICATION_JSON)
