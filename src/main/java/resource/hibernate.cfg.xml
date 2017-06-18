@@ -18,10 +18,10 @@
         <property name="transaction.auto_close_session">true</property>
 
 	<!-- 	<mapping resource="hibernate/mapping/TBook.hmb.xml"/> -->
-        <mapping class="edu.hm.persistance.TBook" />
-        <mapping class="edu.hm.persistance.TDisc" />
-        <mapping class="edu.hm.persistance.TMedium" />
-        <mapping class="edu.hm.persistance.Survey" />
+        <mapping class="edu.hm.data.Book" />
+        <mapping class="edu.hm.data.Disc" />
+        <mapping class="edu.hm.data.Medium" />
+        <mapping class="edu.hm.data.Survey" />
 
     </session-factory> 
 
