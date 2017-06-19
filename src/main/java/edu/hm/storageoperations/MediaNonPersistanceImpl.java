@@ -49,7 +49,7 @@ public class MediaNonPersistanceImpl implements MediaPersistance {
 
     @Override
     public Book[] getAllBooks() {
-	return bookStorage.entrySet().toArray(new Book[0]);
+	return bookStorage.values().toArray(new Book[0]);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MediaNonPersistanceImpl implements MediaPersistance {
 
     @Override
     public Disc[] getAllDiscs() {
-	return discStorage.entrySet().toArray(new Disc[0]);
+	return discStorage.values().toArray(new Disc[0]);
     }
 
 }

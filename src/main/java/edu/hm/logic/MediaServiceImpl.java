@@ -165,40 +165,54 @@ public class MediaServiceImpl implements MediaService {
      * @param isbn
      *            Die ISBN, die getestet werden soll
      * @return true falls die ISBN richtig ist */
-    private boolean testISBN(final String isbn) {
+    public boolean testISBN(final String isbn) {
 	boolean isbnIsCorrect = true;
-	if (isbn.contains("-")) {
-	    String[] isbnParts = isbn.split("-");
-
-	    if (isbnParts.length != ISBN_PARTS) {
-		isbnIsCorrect = false;
-	    }
-	    else if (!(isbnParts[0].equals("978") || isbnParts[0].equals("979"))) {
-		isbnIsCorrect = false;
-	    }
-	    else if (isbnParts[isbnParts.length - 1].length() != 1) {
-		isbnIsCorrect = false;
-	    }
-
-	    for (String part : isbnParts) {
-		try {
-		    Integer.parseInt(part);
-		}
-		catch (NumberFormatException e) {
-		    isbnIsCorrect = false;
-		    break;
-		}
-		catch (NullPointerException e) {
-		    System.out.println("MediaServiceImpl.testISBN: NullPointerException");
-		    isbnIsCorrect = false;
-		    break;
-		}
-	    }
-	    System.out.println("MediaServiceImpl.testISBN: isbnParts = " + Arrays.toString(isbnParts));
-	}
-	else if (!(isbn.matches("[0-9]+") && isbn.length() > 3))
+	String adjustedIsbn;
+	
+	adjustedIsbn = isbn.replace("-", "");
+	
+	//Eine ISBN muss mindestens 5 Zeichen lang sein (Präfix(3) + Gruppennummer(1) + Prüfziffer(1))
+	if(adjustedIsbn.length() < 5)
 	    isbnIsCorrect = false;
-
+	    
+	//Die ersten 3 Ziffern müssen entweder 978 oder 979 sein
+	if(!(adjustedIsbn.substring(0, 3).contains("978") || adjustedIsbn.substring(0, 3).contains("979")))
+	    isbnIsCorrect = false;
+	
+	
+//	
+//	if (isbn.contains("-")) {
+//	    String[] isbnParts = isbn.split("-");
+//
+//	    if (isbnParts.length != ISBN_PARTS) {
+//		isbnIsCorrect = false;
+//	    }
+//	    else if (!(isbnParts[0].equals("978") || isbnParts[0].equals("979"))) {
+//		isbnIsCorrect = false;
+//	    }
+//	    else if (isbnParts[isbnParts.length - 1].length() != 1) {
+//		isbnIsCorrect = false;
+//	    }
+//
+//	    for (String part : isbnParts) {
+//		try {
+//		    Integer.parseInt(part);
+//		}
+//		catch (NumberFormatException e) {
+//		    isbnIsCorrect = false;
+//		    break;
+//		}
+//		catch (NullPointerException e) {
+//		    System.out.println("MediaServiceImpl.testISBN: NullPointerException");
+//		    isbnIsCorrect = false;
+//		    break;
+//		}
+//	    }
+//	    System.out.println("MediaServiceImpl.testISBN: isbnParts = " + Arrays.toString(isbnParts));
+//	}
+//	else if (!(isbn.matches("[0-9]+") && isbn.length() > 3))
+//	    isbnIsCorrect = false;
+	
 	return isbnIsCorrect;
     }
 
