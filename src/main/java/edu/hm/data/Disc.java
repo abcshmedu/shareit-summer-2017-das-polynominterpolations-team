@@ -1,9 +1,16 @@
 package edu.hm.data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /** Dies ist unsere Implementierung der Disc-Klasse.
  * 
  * @author Sebastian Becker
  * @author Peter Straßer */
+@Entity
+@Table
 public class Disc extends Medium {
     /** Diese Variable enthält den Barcode dieser Disc. */
     private String barcode;
@@ -14,6 +21,10 @@ public class Disc extends Medium {
     /** Diese Variable enthält das Alter, ab welchem diese Disc freigegeben
      * ist. */
     private int fsk;
+    
+    @Id
+    @GeneratedValue
+    private Long id;
 
     /** Default Ctor für eine Disc. */
     public Disc() {

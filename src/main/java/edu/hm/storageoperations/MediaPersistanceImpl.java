@@ -21,6 +21,9 @@ public class MediaPersistanceImpl implements MediaPersistance {
 
 	@Override
 	public boolean save(Book a) {
+		if(a.getIsbn().contains("-")){
+			a = new Book(a.getTitle(), a.getAuthor(), a.getIsbn().replaceAll("-", ""));
+		}
 		session.save(a);
 		session.flush();
 		return true;
@@ -35,8 +38,9 @@ public class MediaPersistanceImpl implements MediaPersistance {
 
 	@Override
 	public boolean update(Book a) {
-		if(this.getBook(a.getIsbn()) != null){
-			Query query = session.createQuery("delete from Book where isbn = '" + a.getIsbn()+"' ");
+		String bookIsbn = normalizeIsbn(a.getIsbn());
+		if(this.getBook(bookIsbn) != null){
+			Query query = session.createQuery("delete from Book where isbn = '" + bookIsbn +"' ");
 			query.executeUpdate();
 			save(a);
 		}
@@ -55,7 +59,7 @@ public class MediaPersistanceImpl implements MediaPersistance {
 
 	@Override
 	public Book getBook(String isbn) {
-		Query query = session.createQuery("FROM Book b where b.isbn='" + isbn + "'");
+		Query query = session.createQuery("FROM Book b where b.isbn='" + normalizeIsbn(isbn) + "'");
 		return (Book) query.uniqueResult();
 	}
 
@@ -83,7 +87,7 @@ public class MediaPersistanceImpl implements MediaPersistance {
 	public Disc[] getAllDiscs() {
 		Query query = null;
 		try {
-			query = session.createQuery("select * from " + Disc.class.getSimpleName());
+			query = session.createQuery("from Disc");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,4 +97,11 @@ public class MediaPersistanceImpl implements MediaPersistance {
 		return discs;
 	}
 
+	private String normalizeIsbn(String isbn){
+		if(isbn.contains("-")){
+			isbn = isbn.replaceAll("-", "");
+		}
+		return isbn;
+	}
+	
 }
