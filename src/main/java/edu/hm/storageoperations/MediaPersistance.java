@@ -1,24 +1,16 @@
 package edu.hm.storageoperations;
 
-import java.util.List;
-
 import edu.hm.data.Book;
 import edu.hm.data.Disc;
 
 public interface MediaPersistance {
-    boolean save(Book a);
-
-    boolean save(Disc a);
-
-    boolean update(Book a);
-
-    boolean update(Disc a);
-
+    boolean save(Book book);
+    boolean update(Book book);
     Book getBook(String isbn);
-
-    Disc getDisc(String barcode);
-
     Book[] getAllBooks();
-
+    
+    boolean save(Disc disc);
+    boolean update(Disc disc);
+    Disc getDisc(String barcode);
     Disc[] getAllDiscs();
 }
